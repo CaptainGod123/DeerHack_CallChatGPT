@@ -4,37 +4,39 @@ from chatgpt import get_response
 
 app = Flask(__name__)
 
-def welcome():
-    response = VoiceResponse()
-
-INITIAL_CONVERSATION = True
-
 @app.route("/answer", methods=['GET', 'POST'])
-def answer_call():
+def welcome():
     """Respond to incoming phone calls with a brief message."""
-    global INITIAL_CONVERSATION
     response = VoiceResponse()
-    if not INITIAL_CONVERSATION:
-        user_request = parse_request()
-        print(f"user: {user_request}")
-        if user_request is None:
-            response.say("failed")
-            return str(response)
-        else:
-            gpt_response = get_response(user_request)
-            print(f"gpt: {gpt_response}")
-            response.say(gpt_response)
-            response.pause(length=1)
+    response.say("Welcome")
+    gather = Gather(input='speech dtmf', action='/chat', speechModel="phone_call")
+    gather.say('How can I help you?')
+    response.append(gather)
+    return str(response)
 
-    gather = Gather(input='speech dtmf', action='/answer', speechModel="phone_call")
-    gather.say('How can I help you?' if INITIAL_CONVERSATION else 'Do you have any furthur questions?')
+@app.route("/chat", methods=['GET', 'POST'])
+def start_chat():
+    response = VoiceResponse()
+    user_request = parse_request()
+    print(f"user: {user_request}")
+    if user_request is None:
+        response.say("failed")
+        return str(response)
+    else:
+        gpt_response = get_response(user_request)
+        print(f"gpt: {gpt_response}")
+        response.say(gpt_response)
+        response.pause(length=1)
+
+    gather = Gather(input='speech dtmf', action='/chat', speechModel="phone_call")
+    gather.say('Do you have any furthur questions?')
     response.append(gather)
 
     # response.say("Received")
 
-    INITIAL_CONVERSATION = False
-
     return str(response)
+
+
 
 def parse_request():
     speech_result = request.form["SpeechResult"]
