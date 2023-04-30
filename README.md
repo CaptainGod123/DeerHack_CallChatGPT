@@ -11,7 +11,7 @@ We use the TWILIO API to set up the call service. The call is connected to our b
 The user needs to have all requirements list below, including (Openai and Twilio API token) for CallGPT to work. Once all the requirement is installed, run answer_phone.py in one terminal, and run ngrok http #### (the 4 digit port number will be given when the user runs answer_phone.py). In the ngrok screen, look for the forwarding section and copy the temporary URL genereated by ngrok. After this, enter your Twilio account console, locate Phone number -> Managa -> Active Numbers and select an active number. Finally, paste the URL from ngrok into the box where it says "A call comes in" -> "Webhook" -> "URL". Save your changes, and now you may use your active number to call ChatGPT!
 
 # Website
-Link to project github can be found through our website credability.tech until October 2023. The website is also in the same repository, except it is hosted under a different branch.
+https://captaingod123.github.io/DeerHack_CallGPT/
 
 # Requirements
 - Python 3.9+ to run API 
@@ -26,6 +26,7 @@ Link to project github can be found through our website credability.tech until O
 - Ngrok
 - Sqlite3
 - Datetime
+- Cord
 
 # Made by:
 - Guivir Sasan
