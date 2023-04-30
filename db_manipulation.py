@@ -63,7 +63,7 @@ def add_message(phone_number, message, isGPT=False):
 
     cursor.execute(
       "UPDATE users SET conversation = conversation || ? WHERE phone_number = ?",
-      (f"\n({date}) - [{message_by}] - {message}", phone_number)
+      (f"{date} :-: {message_by} :-: {message} :::", phone_number)
     )
 
     conn.commit()

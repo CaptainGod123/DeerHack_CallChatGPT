@@ -3,10 +3,12 @@ import random
 from flask import Flask, jsonify, request
 from twilio.twiml.voice_response import VoiceResponse, Gather
 from ChatGPT import get_response
+from flask_cors import CORS
 
 from db_manipulation import add_user, add_message, check_and_setup_db, check_new_user
 
 app = Flask(__name__)
+cors = CORS(app)
 
 @app.route("/", methods=['GET', 'POST'])
 def answer_call():
