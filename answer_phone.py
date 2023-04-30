@@ -16,7 +16,7 @@ def answer_call():
     phone_number = request.form.get('Caller')
 
     # provide a randome password if it is a new user
-    rand = random.uniform(1, 99999999)
+    rand = random.uniform(1, 9999)
     if check_new_user(phone_number) == 1:
         print ("the password id ")
         print (str(int(rand)))
