@@ -24,6 +24,8 @@ Link to project github can be found through our website credability.tech until O
 - Flask
 - Twilio
 - Ngrok
+- Sqlite3
+- Datetime
 
 # Made by:
 - Guivir Sasan
