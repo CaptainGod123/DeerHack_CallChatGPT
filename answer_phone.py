@@ -1,9 +1,10 @@
 import sqlite3
+import random
 from flask import Flask, jsonify, request
 from twilio.twiml.voice_response import VoiceResponse, Gather
 from ChatGPT import get_response
 
-from db_manipulation import add_user, add_message, check_and_setup_db
+from db_manipulation import add_user, add_message, check_and_setup_db, check_new_user
 
 app = Flask(__name__)
 
@@ -11,9 +12,30 @@ app = Flask(__name__)
 def answer_call():
     check_and_setup_db()
 
-    # add user to the db
+
     phone_number = request.form.get('Caller')
-    add_user(phone_number, 1234)
+
+    # provide a randome password if it is a new user
+    rand = random.uniform(1, 99999999)
+    if check_new_user(phone_number) == 1:
+        print ("the password id ")
+        print (str(int(rand)))
+        audio = "Welcome, "
+        for i in range(1, len(str(phone_number))):
+            audio = audio + str(phone_number)[i] + ' '
+        audio = audio + ". This is CallGPT. Please memorize the following password to access your chat history. "
+        for i in range(len(str(int(rand)))):
+            audio = audio + str(int(rand))[i] + ' '
+        audio = audio + ". How may I help you?"
+
+        # add user to the db
+        add_user(phone_number, int(rand))
+    else:
+        print(str(phone_number)[1:])
+        audio = "Welcome back, "
+        for i in range(1, len(str(phone_number))):
+            audio = audio + str(phone_number)[i] + ' '
+        audio = audio + ". This is CallGPT. How may I help you?"
 
     """Respond to incoming phone calls with a brief message."""
     # Start our TwiML response
@@ -21,8 +43,8 @@ def answer_call():
 
     # Read a message aloud to the caller
     gather = Gather(input='speech dtmf', action='/complete', speechModel="phone_call", speechTimeout = "1")
-    
-    audio = "This is ChatGPT. How may I help you?"
+
+
     gather.say(audio)
     resp.append(gather)
 
@@ -35,13 +57,13 @@ def get_msg():
     phone_number = request.form.get('Caller')
 
     print(f'SpeechResult:{request.form.get("SpeechResult")}, Confidence:{request.form.get("Confidence")}')
-    
+
     response = VoiceResponse()
     user_request = parse_request()
     print(f"user: {user_request}")
     add_message(phone_number, user_request)
-    
-    # the result of ChatGPT 
+
+    # the result of ChatGPT
     if user_request is None:
         response.say("failed")
         return str(response)
@@ -50,13 +72,12 @@ def get_msg():
     response.say(gpt_response)
     print(f"gpt: {gpt_response}")
     add_message(phone_number, gpt_response, True)
-    
+
     response.pause(length = 1)
-    audio = "Do you have any furthur questions?"
+    audio = "Do you have any furthur questions? Hang up if you have no more questions."
     response.say(audio)
     add_message(phone_number, audio, True)
 
-    
     gather = Gather(input='speech dtmf', action='/complete', speechModel="phone_call", speechTimeout = "1")
     response.append(gather)
     return str(response)
@@ -75,17 +96,17 @@ def get_users():
 
     conn = sqlite3.connect('mydatabase.db')
     cursor = conn.cursor()
-    
+
     # Retrieve all rows from users table
     cursor.execute("SELECT * FROM users")
     rows = cursor.fetchall()
-    
+
     # Convert rows to list of dictionaries
     users = []
     for row in rows:
         user = {'phone_number': row[0], 'password': row[1], 'conversation': row[2]}
         users.append(user)
-    
+
     conn.close()
 
     return jsonify(users)
