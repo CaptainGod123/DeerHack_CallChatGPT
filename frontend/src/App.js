@@ -22,7 +22,7 @@ function App() {
       }
     }
     allUsers.forEach((user) => {
-      if (user[0] == phoneValue && user[1] == password) {
+      if (user[0] === phoneValue && user[1] === password) {
         setSelectedPhone(phoneValue);
       }
     });
