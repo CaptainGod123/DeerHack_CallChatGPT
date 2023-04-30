@@ -1,6 +1,7 @@
 import openai
 
-openai.api_key = "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"
+openai.api_key = "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"
+
 
 MODEL = "gpt-3.5-turbo"
 requests = [{"role": "system", "content": "You are a helpful assistant who provides answers within 50 words"}]

@@ -1,3 +1,47 @@
-.App {
-  text-align: center;
+.LoginPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f2f2f2;
+}
+
+.LoginForm {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+}
+
+.LoginForm h2 {
+  margin-top: 0;
+}
+
+.LoginForm label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.LoginForm input {
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+.LoginForm button {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 3px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.LoginForm button:hover {
+  background-color: #0062cc;
 }
