@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/DeerHack_CallGPT/static/css/main.d584d9dd.css",
+    "main.js": "/DeerHack_CallGPT/static/js/main.28d3fff8.js",
+    "index.html": "/DeerHack_CallGPT/index.html",
+    "main.d584d9dd.css.map": "/DeerHack_CallGPT/static/css/main.d584d9dd.css.map",
+    "main.28d3fff8.js.map": "/DeerHack_CallGPT/static/js/main.28d3fff8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d584d9dd.css",
+    "static/js/main.28d3fff8.js"
+  ]
+}
